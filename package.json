@@ -6,15 +6,18 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
+    "icons": "node scripts/generate-icons.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node scripts/validate-puzzles.mjs"
+    "test": "node scripts/validate-puzzles.mjs && node scripts/validate-pwa.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
+    "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "lucide-react": "latest"
+    "vite": "latest"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
 }

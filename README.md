@@ -18,6 +18,16 @@ npm run build
 
 The production site is written to `dist/`. Vite uses a relative asset base, so the build can be deployed directly to a GitHub Pages project path.
 
+## Install on iPhone
+
+After deploying to an HTTPS address such as GitHub Pages, open MindSprint in Safari, tap **Share**, choose **Add to Home Screen**, enable **Open as Web App**, and tap **Add**. The installed app launches in standalone mode and caches its application shell for offline use. Training history remains stored locally on the device.
+
+Regenerate install icons after changing the source SVG with:
+
+```bash
+npm run icons
+```
+
 ## Current puzzle categories
 
 - Number series
