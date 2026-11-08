@@ -18,6 +18,8 @@ npm run build
 
 The production site is written to `dist/`. Vite uses a relative asset base, so the build can be deployed directly to a GitHub Pages project path.
 
+Pushes to `main` are tested, built, and deployed automatically by `.github/workflows/deploy-pages.yml`. In the repository’s **Settings → Pages**, set **Source** to **GitHub Actions** before the first deployment.
+
 ## Install on iPhone
 
 After deploying to an HTTPS address such as GitHub Pages, open MindSprint in Safari, tap **Share**, choose **Add to Home Screen**, enable **Open as Web App**, and tap **Add**. The installed app launches in standalone mode and caches its application shell for offline use. Training history remains stored locally on the device.
