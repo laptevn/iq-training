@@ -3,9 +3,15 @@ import { SCORE_VERSION, scoreSession } from '../src/scoring.js'
 
 const failures = []
 const visualPuzzles = PUZZLES.filter((puzzle) => puzzle.visual)
-if (PUZZLES.length !== 500) failures.push(`Expected 500 puzzles, got ${PUZZLES.length}`)
-if (visualPuzzles.length !== 150) failures.push(`Expected 150 visual puzzles, got ${visualPuzzles.length}`)
-if (new Set(PUZZLES.map((p) => p.id)).size !== 500) failures.push('Puzzle IDs are not unique')
+if (PUZZLES.length !== 1000) failures.push(`Expected 1000 puzzles, got ${PUZZLES.length}`)
+if (visualPuzzles.length !== 300) failures.push(`Expected 300 visual puzzles, got ${visualPuzzles.length}`)
+if (new Set(PUZZLES.map((p) => p.id)).size !== 1000) failures.push('Puzzle IDs are not unique')
+const catalogByCategory = Object.groupBy(PUZZLES, (puzzle) => puzzle.category)
+if (Object.values(catalogByCategory).some((items) => items.length !== 100)) failures.push('Catalog is not balanced to 100 puzzles per category')
+for (const [category, items] of Object.entries(catalogByCategory)) {
+  const byDifficulty = Object.groupBy(items, (puzzle) => puzzle.difficulty)
+  if (Object.values(byDifficulty).some((puzzles) => puzzles.length !== 20)) failures.push(`${category} is not balanced to 20 puzzles per difficulty`)
+}
 const puzzleContentKey = (puzzle) => [
   puzzle.prompt,
   puzzle.display,

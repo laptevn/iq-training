@@ -1,6 +1,6 @@
 # MindSprint
 
-A static, mobile-first React app for 15-minute IQ-style training sessions. It runs entirely in the browser, generates a deterministic 500-puzzle catalog, and stores session history in `localStorage`.
+A static, mobile-first React app for 15-minute IQ-style training sessions. It runs entirely in the browser, generates a deterministic 1,000-puzzle catalog, and stores session history in `localStorage`.
 
 ## Run locally
 

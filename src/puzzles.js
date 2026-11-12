@@ -102,6 +102,9 @@ const analogySets = [
   ['Clock', 'time', 'thermometer', 'temperature'], ['Calf', 'cow', 'foal', 'horse'], ['Page', 'book', 'brick', 'wall'], ['Chef', 'kitchen', 'judge', 'courtroom'],
   ['Petal', 'flower', 'leaf', 'tree'], ['Key', 'lock', 'password', 'account'], ['Glove', 'hand', 'sock', 'foot'], ['Painter', 'canvas', 'writer', 'paper'],
   ['Island', 'ocean', 'oasis', 'desert'], ['Helmet', 'head', 'shoe', 'foot'],
+  ['Seed', 'plant', 'egg', 'bird'], ['Wheel', 'car', 'wing', 'airplane'], ['Chapter', 'book', 'scene', 'film'],
+  ['Dentist', 'teeth', 'optometrist', 'eyes'], ['Fuel', 'engine', 'food', 'body'], ['Pupil', 'school', 'patient', 'hospital'],
+  ['Roof', 'house', 'crown', 'head'],
 ]
 
 const analogy = (n) => {
@@ -144,9 +147,10 @@ const rotationPattern = (n) => {
   const step = [45, 90, 135][Math.floor(n / 5) % 3]
   const start = (Math.floor(n / 15) % 4) * 45
   const alternates = n >= 25
-  const items = Array.from({ length: 4 }, (_, i) => token(shape, start + step * i, alternates && i % 2 ? 'outline' : 'solid'))
-  const answer = token(shape, start + step * 4, 'solid')
-  const choices = makeVisualOptions(answer, [token(shape, start + step * 3, answer.fill), token(shape, start + step * 4 + 45, answer.fill), token(shape, start + step * 4, 'outline')], n + 707)
+  const count = 1 + Math.floor(n / 60)
+  const items = Array.from({ length: 4 }, (_, i) => token(shape, start + step * i, alternates && i % 2 ? 'outline' : 'solid', count))
+  const answer = token(shape, start + step * 4, 'solid', count)
+  const choices = makeVisualOptions(answer, [token(shape, start + step * 3, answer.fill, count), token(shape, start + step * 4 + 45, answer.fill, count), token(shape, start + step * 4, 'outline', count)], n + 707)
   return { prompt: 'Which symbol continues the visual sequence?', display: `rotation:${items.map(tokenKey).join(',')}?`, ...choices, visual: { type: 'sequence', items }, explanation: `The symbol rotates ${step}° each step${alternates ? ' while fill alternates' : ''}.` }
 }
 
@@ -170,8 +174,9 @@ const visualOddOne = (n) => {
   const shape = shapes[n % shapes.length]
   const start = (Math.floor(n / 5) % 8) * 45
   const fill = n >= 25 ? 'outline' : 'solid'
-  const regular = [0, 1, 2].map((i) => token(shape, start + i * 90, fill, 1 + (n % 2)))
-  const odd = token(shapes[(n + 1) % shapes.length], start + 270, fill, 1 + (n % 2))
+  const count = 1 + Math.floor(n / 40)
+  const regular = [0, 1, 2].map((i) => token(shape, start + i * 90, fill, count))
+  const odd = token(shapes[(n + 1) % shapes.length], start + 270, fill, count)
   const optionVisuals = shuffleWithSeed([...regular, odd], n + 909)
   const options = optionVisuals.map(tokenKey)
   return { prompt: 'Which symbol breaks the visual rule?', display: `odd:${options.join(',')}`, options, optionVisuals, answerIndex: optionVisuals.findIndex((item) => tokenKey(item) === tokenKey(odd)), visual: { type: 'odd-one-out' }, explanation: 'Three symbols are the same shape shown at successive quarter-turns; one uses a different shape.' }
@@ -180,7 +185,7 @@ const visualOddOne = (n) => {
 const families = [numberSequence, alternating, letterSequence, arithmetic, analogy, oddOneOut, comparison, rotationPattern, matrixPattern, visualOddOne]
 const categories = ['Number series', 'Mixed series', 'Letter logic', 'Arithmetic', 'Analogies', 'Classification', 'Comparison', 'Visual sequence', 'Pattern matrix', 'Visual classification']
 
-export const PUZZLES = Array.from({ length: 500 }, (_, index) => {
+export const PUZZLES = Array.from({ length: 1000 }, (_, index) => {
   const familyIndex = index % families.length
   const variant = Math.floor(index / families.length)
   return { id: `ms-${String(index + 1).padStart(3, '0')}`, category: categories[familyIndex], difficulty: 1 + (variant % 5), ...families[familyIndex](variant) }
